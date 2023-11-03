@@ -10,7 +10,7 @@ var tableOne = document.getElementById('table1');
 parentElement.insertBefore(newCanvas, tableOne);
 
 
-// Create array for years
+// Create array for years-----------------------------------------
 // Select the first tr element inside tbody of table1
 
 const firstRow = document.querySelector('#table1 tbody tr:first-child'); 
@@ -30,7 +30,7 @@ const years = [];
 
 console.log(years);
 
-// Create array for countries
+// Create array for countries --------------------------------------
 
 const countryElements = document.querySelectorAll('#table1 tbody tr:not(:first-child) td:first-of-type'); // Select all td elements except the first row
 // excluse headers, the "N°" and "Country" labels.
@@ -41,7 +41,7 @@ const countries = Array.from(countryElements).map(td => td.textContent.trim());
 console.log(countries); // Output the extracted countries to the console
 
 
-// Create array for the data
+// Create array for the data -------------------------------------------
 const dataRows = document.querySelectorAll('#table1 tbody tr td:not(:nth-child(2))'); // Select all td elements in the tbody except the second column
 
 // Extract the text content of the td elements
@@ -58,7 +58,7 @@ for (let i = 0; i < data.length; i += numOfYears) {
 
 console.log(restructuredData);
 
-// Create object containing all data
+// Create object containing all data ----------------------------------------
 const chartData = [];
 
 for (let j = 0; j < countries.length; j++) {
@@ -73,7 +73,7 @@ for (let j = 0; j < countries.length; j++) {
 
 console.log(chartData);
 
-// chart.js chart
+// chart.js chart ---------------------------------------------------------------
 
 const countryLabels = chartData.map(item => item.country);
 const yearLabels = years;
@@ -82,8 +82,6 @@ const datasets = chartData.map(item => {
     return {
         label: item.country,
         data: item.data.map(value => parseFloat(value.replace(',', '.'))), // converting stringto numbers
-        fill: false,
-        borderColor: '#' + (Math.random().toString(16) + '000000').substring(2, 8).toUpperCase(),
         tension: 0.1
     };
 });
@@ -104,3 +102,4 @@ const myChart = new Chart(ctx, {
     },
 });
 
+// Table2 -----------------------------------------------------------------------
