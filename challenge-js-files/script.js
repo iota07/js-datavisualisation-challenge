@@ -42,12 +42,21 @@ console.log(countries); // Output the extracted countries to the console
 
 
 // Create array for the data
-const dataRows = document.querySelectorAll('#table1 tbody tr:not(:first-child) td:not(:first-child)'); // Select all td elements in the tbody except the first column
+const dataRows = document.querySelectorAll('#table1 tbody tr td:not(:nth-child(2))'); // Select all td elements in the tbody except the second column
 
 // Extract the text content of the td elements
 const data = Array.from(dataRows).map(td => td.textContent.trim());
 
-console.log(data); // Output the extracted data to the console
+// Array to store the restructured data
+const restructuredData = [];
+const numOfYears = years.length;
+
+for (let i = 0; i < data.length; i += numOfYears) {
+  const countryData = data.slice(i, i + numOfYears);
+  restructuredData.push(countryData);
+}
+
+console.log(restructuredData);
 
 
 // chart.js chart
