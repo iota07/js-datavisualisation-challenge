@@ -58,27 +58,49 @@ for (let i = 0; i < data.length; i += numOfYears) {
 
 console.log(restructuredData);
 
+// Create object containing all data
+const chartData = [];
+
+for (let j = 0; j < countries.length; j++) {
+    const country = countries[j];
+    const dataValues = restructuredData[j];
+    const obj = {
+        country: country,
+        data: dataValues,
+    };
+    chartData.push(obj);
+}
+
+console.log(chartData);
 
 // chart.js chart
 
-const ctx = document.getElementById('myChart');
+const countryLabels = chartData.map(item => item.country);
+const yearLabels = years;
 
-new Chart(ctx, {
-type: 'bar',
-data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-    label: '# of Votes',
-    data: [12, 19, 3, 5, 2, 3],
-    borderWidth: 1
-    }]
-},
-options: {
-    scales: {
-    y: {
-        beginAtZero: true
-    }
-    }
-}
+const datasets = chartData.map(item => {
+    return {
+        label: item.country,
+        data: item.data.map(value => parseFloat(value.replace(',', '.'))), // converting stringto numbers
+        fill: false,
+        borderColor: '#' + (Math.random().toString(16) + '000000').substring(2, 8).toUpperCase(),
+        tension: 0.1
+    };
+});
+
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: yearLabels,
+        datasets: datasets,
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    },
 });
 
