@@ -3,7 +3,7 @@
 var parentElement = document.getElementById('mw-content-text');
 
 var newCanvas = document.createElement('canvas');
-newCanvas.id = 'myChart';
+newCanvas.id = 'myChart'; // give it 'myChart' id to match chart.js template example
 
 var tableOne = document.getElementById('table1');
 
@@ -33,7 +33,7 @@ console.log(years);
 // Create array for countries --------------------------------------
 
 const countryElements = document.querySelectorAll('#table1 tbody tr:not(:first-child) td:first-of-type'); // Select all td elements except the first row
-// excluse headers, the "N°" and "Country" labels.
+// exclude headers, the "N°" and "Country" labels.
 
 // Extract the text content of the td elements
 const countries = Array.from(countryElements).map(td => td.textContent.trim());
@@ -81,7 +81,7 @@ const yearLabels = years;
 const datasets = chartData.map(item => {
     return {
         label: item.country,
-        data: item.data.map(value => parseFloat(value.replace(',', '.'))), // converting stringto numbers
+        data: item.data.map(value => parseFloat(value.replace(',', '.'))), // converting string to numbers and replace ',' by '.'
         tension: 0.1
     };
 });
@@ -103,3 +103,68 @@ const myChart = new Chart(ctx, {
 });
 
 // Table2 -----------------------------------------------------------------------
+
+// insert new canvas before table2
+
+var parentElement = document.getElementById('mw-content-text');
+
+var newCanvas = document.createElement('canvas');
+newCanvas.id = 'myChart2'; // give it 'myChart2' id to match chart.js template example
+
+var tableTwo = document.getElementById('table2');
+
+parentElement.insertBefore(newCanvas, tableTwo);
+
+
+// create object with all data from table2 ----------------------------------------------
+
+const table = document.getElementById('table2');
+const tableData = [];
+
+// Iterate through each row of the table (skipping the header row)
+for (let i = 1; i < table.rows.length; i++) {
+    const rowData = table.rows[i].cells;
+    const dataObj = {
+        "N°": rowData[0].innerText.trim(),
+        "Country": rowData[1].innerText.trim(),
+        "2007-09": rowData[2].innerText.trim(),
+        "2010-12": rowData[3].innerText.trim()
+    };
+    tableData.push(dataObj);
+}
+
+console.log(tableData); // Verify the data in the console
+
+// use tableData in chart.js
+
+const countries2 = tableData.map((data) => data.Country);
+const values2007_09 = tableData.map((data) => data["2007-09"]);
+const values2010_12 = tableData.map((data) => data["2010-12"]);
+
+const ctx2 = document.getElementById("myChart2").getContext("2d");
+const myChart2 = new Chart(ctx2, {
+  type: "bar",
+  data: {
+      labels: countries2,
+      datasets: [
+          {
+              label: "2007-09",
+              data: values2007_09,
+              borderWidth: 1,
+          },
+          {
+              label: "2010-12",
+              data: values2010_12,
+              borderWidth: 1,
+          },
+      ],
+  },
+  options: {
+      scales: {
+          y: {
+              beginAtZero: true,
+          },
+      },
+  },
+});
+
