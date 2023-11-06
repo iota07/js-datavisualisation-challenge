@@ -168,3 +168,37 @@ const myChart2 = new Chart(ctx2, {
   },
 });
 
+// insert new chart canvas after h1
+
+var parentElement2 = document.getElementById('bodyContent');
+
+var newCanvas = document.createElement('canvas');
+newCanvas.id = 'myChart3'; // give it 'myChart2' id to match chart.js template example
+
+var tableAPI = document.getElementById('mw-content-text');
+
+parentElement2.insertBefore(newCanvas, tableAPI);
+
+const ctx3 = document.getElementById('myChart3');
+
+
+// chart 3 with API
+new Chart(ctx3, {
+  type: 'bar',
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
