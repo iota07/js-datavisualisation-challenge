@@ -168,12 +168,12 @@ const myChart2 = new Chart(ctx2, {
   },
 });
 
-// insert new chart canvas after h1
+// insert new chart canvas after h1 -------------------------------------------------------------
 
 var parentElement2 = document.getElementById('bodyContent');
 
 var newCanvas = document.createElement('canvas');
-newCanvas.id = 'myChart3'; // give it 'myChart2' id to match chart.js template example
+newCanvas.id = 'myChart3'; // give it 'myChart3' id to match chart.js template example
 
 var tableAPI = document.getElementById('mw-content-text');
 
@@ -184,6 +184,7 @@ var dataPoints = [];
 var time = 0; // Initialize time variable
 
 
+// update Chart 3 --------------------------------------------------------------------------------------
 function updateChart() {
   var refresh = new XMLHttpRequest();
   var timestamp = new Date().getTime(); // Get current timestamp
@@ -216,7 +217,7 @@ setInterval(function () {
   updateChart();
 }, 1000);
 
-// chart 3 with API
+// chart 3 with API ----------------------------------------------------------------------------------------------------
 var ctx3 = document.getElementById('myChart3').getContext('2d');
 var myChart3 = new Chart(ctx3, {
   type: 'line',
@@ -224,7 +225,7 @@ var myChart3 = new Chart(ctx3, {
     labels: [], // Set initial labels as an empty array
     datasets: [
       {
-        label: 'My Chart Label',
+        label: 'Chart with API from https://canvasjs.com/services/data/datapoints.php',
         data: [],
         borderWidth: 1,
       },
