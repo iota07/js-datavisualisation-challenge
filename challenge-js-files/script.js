@@ -141,7 +141,7 @@ const countries2 = tableData.map((data) => data.Country);
 const values2007_09 = tableData.map((data) => data["2007-09"]);
 const values2010_12 = tableData.map((data) => data["2010-12"]);
 
-const ctx2 = document.getElementById("myChart2").getContext("2d");
+const ctx2 = document.getElementById("myChart2").getContext('2d');
 const myChart2 = new Chart(ctx2, {
   type: "bar",
   data: {
@@ -179,26 +179,66 @@ var tableAPI = document.getElementById('mw-content-text');
 
 parentElement2.insertBefore(newCanvas, tableAPI);
 
-const ctx3 = document.getElementById('myChart3');
+var dataPoints = [];
 
+var time = 0; // Initialize time variable
+
+
+function updateChart() {
+  var refresh = new XMLHttpRequest();
+  var timestamp = new Date().getTime(); // Get current timestamp
+  refresh.open('GET', 'https://canvasjs.com/services/data/datapoints.php?timestamp=' + timestamp, true);
+  refresh.onload = function () {
+    if (refresh.status >= 200 && refresh.status < 300) {
+      var newData = JSON.parse(refresh.responseText);
+
+      // Update the dataPoints array with the new data
+      dataPoints = newData;
+
+      // Update labels to reflect the new dataPoints
+      myChart3.data.labels = dataPoints.map((point) => point[0]);
+      myChart3.data.datasets[0].data = dataPoints.map((point) => point[1]); // Update data
+      myChart3.update();
+    } else {
+      console.error('Request failed with status', refresh.status);
+    }
+  };
+  refresh.onerror = function () {
+    console.error('Request failed');
+  };
+  refresh.send();
+}
+
+updateChart(); // Call updateChart initially
+
+// Call updateChart every 1000ms
+setInterval(function () {
+  updateChart();
+}, 1000);
 
 // chart 3 with API
-new Chart(ctx3, {
-  type: 'bar',
+var ctx3 = document.getElementById('myChart3').getContext('2d');
+var myChart3 = new Chart(ctx3, {
+  type: 'line',
   data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      borderWidth: 1
-    }]
+    labels: [], // Set initial labels as an empty array
+    datasets: [
+      {
+        label: 'My Chart Label',
+        data: [],
+        borderWidth: 1,
+      },
+    ],
   },
   options: {
     scales: {
       y: {
-        beginAtZero: true
-      }
-    }
-  }
+        beginAtZero: true,
+      },
+    },
+  },
 });
+
+
+
 
