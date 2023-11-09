@@ -180,9 +180,8 @@ var tableAPI = document.getElementById('mw-content-text');
 parentElement2.insertBefore(newCanvas, tableAPI);
 
 var dataPoints = [];
-
-var time = 0; // Initialize time variable
-
+var totalDataPointsCount = 0; // Initialize total data points count
+var currentIndex = 0; // Initialize current index
 
 // update Chart 3 --------------------------------------------------------------------------------------
 function updateChart() {
@@ -193,13 +192,18 @@ function updateChart() {
     if (refresh.status >= 200 && refresh.status < 300) {
       var newData = JSON.parse(refresh.responseText);
 
-      // Update the dataPoints array with the new data
-      dataPoints = newData;
+      // Add each data point from the API one by one
+      dataPoints.push(newData[currentIndex]);
 
       // Update labels to reflect the new dataPoints
-      myChart3.data.labels = dataPoints.map((point) => point[0]);
-      myChart3.data.datasets[0].data = dataPoints.map((point) => point[1]); // Update data
+      myChart3.data.labels = dataPoints.map((point, index) => index);
+      // Update data
+      myChart3.data.datasets[0].data = dataPoints.map((point) => point[1]);
+
       myChart3.update();
+
+      // Increment current index and handle cycling
+      currentIndex = (currentIndex + 1) % newData.length;
     } else {
       console.error('Request failed with status', refresh.status);
     }
@@ -239,7 +243,3 @@ var myChart3 = new Chart(ctx3, {
     },
   },
 });
-
-
-
-
