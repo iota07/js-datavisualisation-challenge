@@ -11,6 +11,9 @@ Adding two interactive data visualisation graphics using javascript. These graph
 ## Project Starting Date:
 30 october 2023
 
+## Live deployement:
+[Live link](https://iota07.github.io/js-datavisualisation-challenge/)
+
 ## Author:
 Hanesana Nhouvannasak
 
